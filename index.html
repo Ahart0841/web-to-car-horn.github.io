@@ -15,6 +15,7 @@
             height: 100vh;
             margin: 0;
             flex-direction: column;
+            transition: background-color 0.5s ease;
         }
 
         button {
@@ -92,11 +93,16 @@
 
     <div id="buttonMessage">The button will be back in <span id="countdownTimer">1</span> second</div>
 
+    <!-- Toggle Button to switch backgrounds -->
+    <button id="toggleBackground">Toggle Offline Background</button>
+
     <script>
         const form = document.getElementById('triggerForm');
         const sendButton = form.querySelector('button');
         const buttonMessage = document.getElementById('buttonMessage');
         const countdownTimer = document.getElementById('countdownTimer');
+        const toggleBackgroundButton = document.getElementById('toggleBackground');
+        let offlineMode = false;
 
         form.addEventListener('submit', function(event) {
             event.preventDefault();
@@ -132,6 +138,21 @@
             .catch(error => {
                 console.error('Error:', error);
             });
+        });
+
+        // Function to toggle between online and offline backgrounds
+        toggleBackgroundButton.addEventListener('click', function() {
+            offlineMode = !offlineMode;  // Toggle the state
+
+            if (offlineMode) {
+                document.body.style.backgroundColor = 'gray';  // Offline background
+                document.body.style.color = 'black';  // Offline text color
+                toggleBackgroundButton.textContent = 'Switch to Online Mode';  // Change button text
+            } else {
+                document.body.style.backgroundColor = 'black';  // Online background
+                document.body.style.color = 'white';  // Online text color
+                toggleBackgroundButton.textContent = 'Toggle Offline Background';  // Reset button text
+            }
         });
     </script>
 </body>
