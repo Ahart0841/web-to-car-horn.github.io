@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CAR HORN</title>
+    <title>WEB to CAR HORN</title>
     <style>
         body {
             background-color: black;
@@ -15,7 +15,6 @@
             height: 100vh;
             margin: 0;
             flex-direction: column;
-            transition: background-color 0.5s ease;
         }
 
         button {
@@ -63,31 +62,6 @@
             display: none;
             margin-top: 10px;
         }
-
-        /* Dark Gray Overlay for offline mode */
-        #offlineOverlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(32, 32, 32, 0.95); /* Darker gray background */
-            color: white;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            z-index: 9999;
-        }
-
-        #offlineOverlay h1 {
-            font-size: 50px;
-            margin: 0;
-        }
-
-        #offlineOverlay p {
-            font-size: 20px;
-        }
     </style>
 </head>
 <body>
@@ -118,23 +92,11 @@
 
     <div id="buttonMessage">The button will be back in <span id="countdownTimer">1</span> second</div>
 
-    <!-- Button to toggle offline mode -->
-    <button id="toggleBackground">Toggle Offline Mode</button>
-
-    <!-- Offline Overlay -->
-    <div id="offlineOverlay">
-        <h1>OFFLINE</h1>
-        <p>Please check your connection or try again later.</p>
-    </div>
-
     <script>
         const form = document.getElementById('triggerForm');
         const sendButton = form.querySelector('button');
         const buttonMessage = document.getElementById('buttonMessage');
         const countdownTimer = document.getElementById('countdownTimer');
-        const toggleBackgroundButton = document.getElementById('toggleBackground');
-        const offlineOverlay = document.getElementById('offlineOverlay');
-        let offlineMode = false;
 
         form.addEventListener('submit', function(event) {
             event.preventDefault();
@@ -169,34 +131,6 @@
             })
             .catch(error => {
                 console.error('Error:', error);
-            });
-        });
-
-        // Function to toggle offline state
-        toggleBackgroundButton.addEventListener('click', function() {
-            fetch('https://monkey-factual-rooster.ngrok-free.app/toggle_offline', {
-                method: 'POST'
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.offline) {
-                    offlineOverlay.style.display = 'flex';
-                } else {
-                    offlineOverlay.style.display = 'none';
-                }
-            });
-        });
-
-        // Check offline state on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('https://monkey-factual-rooster.ngrok-free.app/get_state')
-            .then(response => response.json())
-            .then(data => {
-                if (data.offline) {
-                    offlineOverlay.style.display = 'flex';
-                } else {
-                    offlineOverlay.style.display = 'none';
-                }
             });
         });
     </script>
